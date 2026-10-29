@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun index.html",
+    "dev": "bun index.html detail.html favorite.html",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
