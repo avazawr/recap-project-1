@@ -31,36 +31,36 @@ function isBook(value: unknown): value is Book {
     typeof value.isbn === "string" &&
     "title" in value &&
     typeof value.title === "string" &&
-    "subtitle" in value &&
-    typeof value.subtitle === "string" &&
-    "abstract" in value &&
-    typeof value.abstract === "string" &&
+    // "subtitle" in value &&
+    // typeof value.subtitle === "string" &&
+    // "abstract" in value &&
+    // typeof value.abstract === "string" &&
     "author" in value &&
     typeof value.author === "string" &&
     "publisher" in value &&
-    typeof value.publisher === "string" &&
-    "price" in value &&
-    typeof value.price === "number" &&
-    "currency" in value &&
-    typeof value.currency === "string" &&
-    "numPages" in value &&
-    typeof value.numPages === "number" &&
-    "cover" in value &&
-    typeof value.cover === "string" &&
-    "userId" in value &&
-    typeof value.userId === "number" &&
-    "publishedAt" in value &&
-    typeof value.publishedAt === "string" &&
-    "coAuthors" in value &&
-    Array.isArray(value.coAuthors) &&
-    "predecessorIsbn" in value &&
-    typeof value.predecessorIsbn === "string" &&
-    "successorIsbn" in value &&
-    typeof value.successorIsbn === "string" &&
-    "createdAt" in value &&
-    typeof value.createdAt === "string" &&
-    "updatedAt" in value &&
-    typeof value.updatedAt === "string"
+    typeof value.publisher === "string" //&&
+    // "price" in value &&
+    // typeof value.price === "number" &&
+    // "currency" in value &&
+    // typeof value.currency === "string" &&
+    // "numPages" in value &&
+    // typeof value.numPages === "number" &&
+    // "cover" in value &&
+    // typeof value.cover === "string" &&
+    // "userId" in value &&
+    // typeof value.userId === "number" &&
+    // "publishedAt" in value &&
+    // typeof value.publishedAt === "string" &&
+    // "coAuthors" in value &&
+    // Array.isArray(value.coAuthors) &&
+    // "predecessorIsbn" in value &&
+    // typeof value.predecessorIsbn === "string" &&
+    // "successorIsbn" in value &&
+    // typeof value.successorIsbn === "string" &&
+    // "createdAt" in value &&
+    // typeof value.createdAt === "string" &&
+    // "updatedAt" in value &&
+    // typeof value.updatedAt === "string"
   );
 }
 

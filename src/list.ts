@@ -10,6 +10,10 @@ const table = document.getElementById("books-table");
 if (!(table instanceof HTMLTableElement)) {
   throw new Error("Element #books-table not found");
 }
+const search = document.getElementById("search");
+if (!(search instanceof HTMLInputElement)) {
+  throw new Error("Element #search not found");
+}
 
 // Render the page ---------------------------------------------
 
@@ -82,15 +86,29 @@ const render = (books: Book[]) => {
 };
 
 // Fetch books -------------------------------------------------
+const refreshBookTable = async (query?: string) => {
+  try {
+    if (!query) query = "";
+    books = await fetchBooks("/books" + query);
+
+    render(books);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
+    total.textContent = `Could not load books: ${message}`;
+    table.remove();
+  }
+};
+
 let books: Book[] = [];
+refreshBookTable();
 
-try {
-  books = await fetchBooks("/books");
+// search ---------------------------------------------------------
 
-  render(books);
-} catch (error) {
-  const message = error instanceof Error ? error.message : "Unknown error";
+search.addEventListener("input", async (event) => {
+  event.preventDefault();
+  let query = "";
+  if (search.value.trim() != "") query = `?title_like=${search.value}`;
 
-  total.textContent = `Could not load books: ${message}`;
-  table.remove();
-}
+  refreshBookTable(query);
+});
