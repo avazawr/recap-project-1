@@ -1,6 +1,13 @@
 import { fetchBooks } from "./books.js";
 import type { Book } from "./books.js";
 
+import {
+  inverseInFavorites,
+  addToFavorites,
+  loadFavorites,
+} from "./favorites.js";
+import type { FavoriteBook } from "./favorites.js";
+
 // Get all HTML elements -------------------------------------
 const total = document.getElementById("total");
 if (!(total instanceof HTMLHeadingElement)) {
@@ -31,12 +38,14 @@ const render = (books: Book[]) => {
   const tbody = table.querySelector("tbody");
   tbody?.replaceChildren();
 
+  let favorites: FavoriteBook[] = loadFavorites();
+
   books.forEach((book) => {
     const tr = document.createElement("tr");
 
     // Create table cells
     const favorite_empty = `
-        <button class="button button-clear fav-btn">
+        <button class="button button-clear fav-btn" data-id="${book.id}">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -53,8 +62,8 @@ const render = (books: Book[]) => {
             </svg>
         </button>
         `,
-      favorite = `
-            <button class="button button-clear fav-btn">
+      favorite_fill = `
+            <button class="button button-clear fav-btn" data-id="${book.id}"> 
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -67,11 +76,22 @@ const render = (books: Book[]) => {
                     </svg>
             </button>
         `;
+    let favorite: string;
+
+    const favoriteBook = favorites.find(
+      (favoriteBook) => favoriteBook.id === book.id,
+    );
+
+    if (favoriteBook) {
+      favorite = favorite_fill;
+    } else {
+      favorite = favorite_empty;
+    }
 
     const row = `
     <tr>
         <td>
-            ${favorite_empty}
+            ${favorite}
         </td>
         <td>${book.title}</td>
         <td>${book.isbn}</td>
@@ -150,3 +170,18 @@ let books: Book[] = [],
   publishers: string[] = [];
 
 refreshBookTable();
+
+document.addEventListener("click", (event) => {
+  const target = event.target;
+
+  if (target instanceof Element) {
+    const button = target.closest(".fav-btn");
+
+    if (button instanceof HTMLButtonElement) {
+      const id = button.dataset.id;
+      const book = books.find((book) => book.id === id);
+      if (book) inverseInFavorites(book);
+      render(books);
+    }
+  }
+});

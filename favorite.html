@@ -22,7 +22,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
     />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="/src/favorites.ts"></script>
+    <script type="module" src="/src/favorites-page.js"></script>
     <title>Favorites | Book Library</title>
   </head>
   <body>
@@ -34,7 +34,8 @@
             <nav class="mainnav">
               <a href="index.html" class="mainnav-link">Books</a>
               <a href="favorite.html" class="mainnav-link mainnav-link--active"
-                >Favorites <span class="mainnav-number">2</span></a
+                >Favorites
+                <span class="mainnav-number" id="header-fav-total">2</span></a
               >
             </nav>
           </div>
@@ -42,7 +43,7 @@
       </div>
     </header>
     <main class="container">
-      <h2>2 Favorites on your list</h2>
+      <h2 id="total">2 Favorites on your list</h2>
       <section class="row filter-search">
         <form action="#" class="column">
           <label for="search">Search</label>
@@ -60,7 +61,7 @@
       </section>
       <section class="row">
         <div class="column">
-          <table>
+          <table id="books-table">
             <thead>
               <tr>
                 <th class="first-col">&nbsp;</th>

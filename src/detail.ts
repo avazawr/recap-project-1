@@ -1,5 +1,6 @@
 import type { Book } from "./books.js";
 import { fetchBook } from "./books.js";
+import { loadFavorites } from "./favorites.js";
 
 // Get all HTML elements -------------------------------------
 const bookTitle = document.getElementById("book-title");
@@ -39,6 +40,21 @@ const render = (book: Book) => {
   bookPublisher.textContent = book.publisher;
   bookPages.textContent = book.numPages.toString();
   bookCover.src = book.cover;
+
+  const backButton = document.getElementById("back");
+  let buttons = "";
+
+  if (book.predecessorIsbn) {
+    buttons += `<a href="detail?isbn=${book.predecessorIsbn}" class="button button-outline">Previous volume</a>`;
+  }
+
+  if (book.successorIsbn) {
+    buttons += `<a href="detail?isbn=${book.successorIsbn}" class="button button-outline">Next volume</a>`;
+  }
+
+  if (backButton) {
+    backButton.insertAdjacentHTML("afterend", buttons);
+  }
 };
 
 // MAIN -------------------------------------------------
@@ -49,6 +65,7 @@ try {
   if (isbn) {
     let book = await fetchBook(isbn);
     render(book);
+    loadFavorites();
   }
 } catch (error) {
   const message = error instanceof Error ? error.message : "Unknown error";

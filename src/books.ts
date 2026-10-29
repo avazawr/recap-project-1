@@ -12,13 +12,8 @@ export interface Book {
   currency: string;
   numPages: number;
   cover: string;
-  // userId: number;
-  // publishedAt: string;
-  // coAuthors: string[];
-  // predecessorIsbn: string;
-  // successorIsbn: string;
-  // createdAt: string;
-  // updatedAt: string;
+  predecessorIsbn: string | null;
+  successorIsbn: string | null;
 }
 
 function isBook(value: unknown): value is Book {
@@ -44,23 +39,14 @@ function isBook(value: unknown): value is Book {
     "currency" in value &&
     typeof value.currency === "string" &&
     "numPages" in value &&
-    typeof value.numPages === "number" //&&
-    // "cover" in value &&
-    // typeof value.cover === "string" &&
-    // "userId" in value &&
-    // typeof value.userId === "number" &&
-    // "publishedAt" in value &&
-    // typeof value.publishedAt === "string" &&
-    // "coAuthors" in value &&
-    // Array.isArray(value.coAuthors) &&
-    // "predecessorIsbn" in value &&
-    // typeof value.predecessorIsbn === "string" &&
-    // "successorIsbn" in value &&
-    // typeof value.successorIsbn === "string" &&
-    // "createdAt" in value &&
-    // typeof value.createdAt === "string" &&
-    // "updatedAt" in value &&
-    // typeof value.updatedAt === "string"
+    typeof value.numPages === "number" &&
+    "cover" in value &&
+    typeof value.cover === "string" &&
+    "predecessorIsbn" in value &&
+    (typeof value.predecessorIsbn === "string" ||
+      value.predecessorIsbn === null) &&
+    "successorIsbn" in value &&
+    (typeof value.successorIsbn === "string" || value.successorIsbn === null)
   );
 }
 
