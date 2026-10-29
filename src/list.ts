@@ -78,7 +78,7 @@ const render = (books: Book[]) => {
         <td>${book.author}</td>
         <td>${book.publisher}</td>
         <td>
-        <a href="detail.html?isbn=${book.isbn}" class="button">
+        <a href="detail?isbn=${book.isbn}" class="button">
             Detail
         </a>
         </td>
@@ -132,7 +132,7 @@ function createPublishers(books: Book[]): string[] {
 
   if (publisherSelect instanceof HTMLSelectElement) {
     publisherSelect.replaceChildren(new Option("-", "-"));
-    console.log(publishers);
+
     publishers.forEach((publisher) => {
       publisherSelect.add(new Option(publisher, publisher));
     });

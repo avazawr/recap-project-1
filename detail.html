@@ -22,9 +22,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
     />
     <link rel="stylesheet" href="style.css" />
-    <!-- Add the <script type="module"> for this page here. -->
-    <title>Book details | Book Library</title>
     <script type="module" src="/src/detail.ts"></script>
+    <title>Book details | Book Library</title>
   </head>
   <body>
     <header class="header">
@@ -45,14 +44,14 @@
       </div>
     </header>
     <main class="container">
-      <h1>
+      <h1 id="book-title">
         Sapiens<br />
         <small>A Brief History of Humankind</small>
       </h1>
       <section class="row">
         <div class="column column-67">
           <h3>Abstract</h3>
-          <p>
+          <p id="book-abstract">
             One hundred thousand years ago, at least six human species inhabited
             the earth. Today there is just one. Us. Sapiens explores how an
             unremarkable ape became the ruler of planet Earth ...
@@ -60,15 +59,22 @@
 
           <h4>Details</h4>
           <ul>
-            <li><strong>Author:</strong> Yuval Noah Harari</li>
-            <li><strong>Publisher:</strong> Harper</li>
-            <li><strong>Pages:</strong> 443</li>
+            <li>
+              <strong>Author:</strong>
+              <span id="book-author">Yuval Noah Harari</span>
+            </li>
+            <li>
+              <strong>Publisher:</strong>
+              <span id="book-publisher">Harper</span>
+            </li>
+            <li><strong>Pages:</strong> <span id="book-pages">443</span></li>
           </ul>
 
           <a href="index.html" class="button button-outline">Back</a>
         </div>
         <div class="column column-33">
           <img
+            id="book-cover"
             src="http://localhost:4730/covers/9780062316097.png"
             alt="Cover of Sapiens"
           />

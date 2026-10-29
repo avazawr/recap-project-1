@@ -4,7 +4,7 @@ export interface Book {
   id: string;
   isbn: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   abstract: string;
   author: string;
   publisher: string;
@@ -12,13 +12,13 @@ export interface Book {
   currency: string;
   numPages: number;
   cover: string;
-  userId: number;
-  publishedAt: string;
-  coAuthors: string[];
-  predecessorIsbn: string;
-  successorIsbn: string;
-  createdAt: string;
-  updatedAt: string;
+  // userId: number;
+  // publishedAt: string;
+  // coAuthors: string[];
+  // predecessorIsbn: string;
+  // successorIsbn: string;
+  // createdAt: string;
+  // updatedAt: string;
 }
 
 function isBook(value: unknown): value is Book {
@@ -33,18 +33,18 @@ function isBook(value: unknown): value is Book {
     typeof value.title === "string" &&
     // "subtitle" in value &&
     // typeof value.subtitle === "string" &&
-    // "abstract" in value &&
-    // typeof value.abstract === "string" &&
+    "abstract" in value &&
+    typeof value.abstract === "string" &&
     "author" in value &&
     typeof value.author === "string" &&
     "publisher" in value &&
-    typeof value.publisher === "string" //&&
-    // "price" in value &&
-    // typeof value.price === "number" &&
-    // "currency" in value &&
-    // typeof value.currency === "string" &&
-    // "numPages" in value &&
-    // typeof value.numPages === "number" &&
+    typeof value.publisher === "string" &&
+    "price" in value &&
+    typeof value.price === "number" &&
+    "currency" in value &&
+    typeof value.currency === "string" &&
+    "numPages" in value &&
+    typeof value.numPages === "number" //&&
     // "cover" in value &&
     // typeof value.cover === "string" &&
     // "userId" in value &&
@@ -76,4 +76,16 @@ export async function fetchBooks(url: string): Promise<Book[]> {
   if (Array.isArray(data)) return data.filter(isBook);
   //if (Array.isArray(data)) return data;
   else throw new Error(`Request failed with status ${response.status}`);
+}
+
+export async function fetchBook(isbn: string): Promise<Book> {
+  const response = await fetch(`${BOOK_API}/books/${isbn}`);
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+
+  const data: unknown = await response.json();
+  if (isBook(data)) return data;
+  else throw new Error(`Not valid book data`);
 }
