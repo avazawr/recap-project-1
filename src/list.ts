@@ -14,6 +14,10 @@ const search = document.getElementById("search");
 if (!(search instanceof HTMLInputElement)) {
   throw new Error("Element #search not found");
 }
+const publisherSelect = document.getElementById("by-publisher");
+if (!(publisherSelect instanceof HTMLSelectElement)) {
+  throw new Error("Element #by-publisher not found");
+}
 
 // Render the page ---------------------------------------------
 
@@ -91,6 +95,8 @@ const refreshBookTable = async (query?: string) => {
     if (!query) query = "";
     books = await fetchBooks("/books" + query);
 
+    if (publishers.length === 0) publishers = createPublishers(books);
+
     render(books);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
@@ -100,15 +106,47 @@ const refreshBookTable = async (query?: string) => {
   }
 };
 
-let books: Book[] = [];
-refreshBookTable();
-
 // search ---------------------------------------------------------
 
 search.addEventListener("input", async (event) => {
-  event.preventDefault();
-  let query = "";
-  if (search.value.trim() != "") query = `?title_like=${search.value}`;
-
-  refreshBookTable(query);
+  refreshBookTable(buildSearchQuery(search.value, publisherSelect.value));
 });
+
+function buildSearchQuery(
+  searchQuery: string,
+  currentPublisher: string,
+): string {
+  let query = "";
+  if (searchQuery.trim() != "") query = `?title_like=${searchQuery}`;
+
+  let symb = "?";
+  if (query.length > 0) symb = "&";
+  if (currentPublisher != "-") query += `${symb}publisher=${currentPublisher}`;
+  return query;
+}
+
+// publisherSelect -------------------------------------------------
+
+function createPublishers(books: Book[]): string[] {
+  let publishers = [...new Set(books.map((book) => book.publisher))];
+
+  if (publisherSelect instanceof HTMLSelectElement) {
+    publisherSelect.replaceChildren(new Option("-", "-"));
+    console.log(publishers);
+    publishers.forEach((publisher) => {
+      publisherSelect.add(new Option(publisher, publisher));
+    });
+  }
+
+  return publishers;
+}
+
+publisherSelect.addEventListener("change", async (event) => {
+  refreshBookTable(buildSearchQuery(search.value, publisherSelect.value));
+});
+
+// MAIN -------------------------------------------------
+let books: Book[] = [],
+  publishers: string[] = [];
+
+refreshBookTable();
